@@ -1,0 +1,219 @@
+\documentclass[11pt,table,xcdraw]{article}
+\usepackage{a4wide}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel} 
+\usepackage[pdftex]{graphicx}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{eurosym}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{wrapfig}
+\usepackage{eurosym}
+\usepackage{float}
+\usepackage{svg}
+\usepackage{blindtext}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{kpfonts}
+\usepackage{xpatch}
+\usepackage{parskip}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{glossaries}
+
+
+%%-------------------------------------------------------------------
+% CODE HIGHLIGHTING
+%%-------------------------------------------------------------------
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\definecolor{dkgreen}{rgb}{0,.6,0}
+\definecolor{dkblue}{rgb}{0,0,.6}
+\definecolor{dkyellow}{cmyk}{0,0,.8,.3}
+
+
+\lstset{frame=tb,
+  language=Php,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+    keywordstyle    = \color{dkblue},
+  stringstyle     = \color{red},
+  identifierstyle = \color{dkgreen},
+  commentstyle    = \color{gray},
+  emph            =[1]{php},
+  emphstyle       =[1]\color{black},
+  emph            =[2]{if,and,or,else},
+  emphstyle       =[2]\color{dkyellow},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+
+%%-------------------------------------------------------------------
+% PAGE HEADER STYLE
+%%-------------------------------------------------------------------
+
+\usepackage{fancyhdr}
+\fancypagestyle{long} { % Long page header (for main content, etc.)
+\fancyhf{}
+\fancyhead[L]{\nouppercase{\rightmark}}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+}
+
+\fancypagestyle{short} { % Long page header (for main content, etc.)
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+}
+
+\usepackage[font={small,it}]{caption}
+\setlength{\parindent}{0pt}
+\setlength{\aboverulesep}{0pt}
+\setlength{\belowrulesep}{0pt}
+\renewcommand*{\arraystretch}{1.2}
+\linespread{1.3}
+
+%%-------------------------------------------------------------------
+% 4th level of sections using \paragraph
+%%-------------------------------------------------------------------
+
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+
+%%-------------------------------------------------------------------
+% HARVARD STYLE OF REFERENCING
+%%-------------------------------------------------------------------
+
+\usepackage[
+firstinits=true, % render first and middle names as initials
+useprefix=true,
+maxcitenames=1,
+maxbibnames=99,
+style=authoryear,
+dashed=false, % re-print recurring author names in bibliography
+url=false,
+urldate=long
+]{biblatex}
+
+\DeclareFieldFormat{title}{{\textit{#1.}}}
+\DeclareFieldFormat{maintitle}{{#1}}
+
+\NewBibliographyString{available}
+
+\DefineBibliographyStrings{english}{%
+  available = {[online] Available at},
+}
+
+\DeclareFieldFormat{url}{\bibstring{available}\addcolon\space\url{#1}}
+\DeclareFieldFormat{urldate}{[Accessed #1]}
+
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+\xpatchbibdriver{online}
+  {\usebibmacro{title}}
+  {\usebibmacro{title}%
+   \newunit\newblock\
+   \usebibmacro{maintitle}}
+  {}{}
+  
+\setlength\bibitemsep{0.2cm} % increase spacing between entries in bibliography
+
+\DeclareLabeldate{
+  \field{date}
+  \field{eventdate} 
+  \field{origdate}
+  \field{year}
+  \literal{nodate}
+}
+
+\addbibresource{references.bib}
+\nocite{*} % print all citations
+
+
+%%-------------------------------------------------------------------
+
+
+\include{./glossaryentries}
+
+
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	LOAD VARIABLES
+%----------------------------------------------------------------------------------------
+
+\include{./content/variables}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\include{./content/title_page}
+
+%----------------------------------------------------------------------------------------
+%	PREFACE CONTENT SECTION
+%----------------------------------------------------------------------------------------
+
+\pagenumbering{roman} 
+\setcounter{page}{2}
+\pagestyle{short}
+
+% Comment out if part not needed for report
+\include{./content/information}
+\include{./content/management_summary}
+\include{./content/SoA}
+
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENT, LIST OF FIGURES, ETC.
+%----------------------------------------------------------------------------------------
+
+% Comment out if not needed for report
+\tableofcontents
+\newpage
+\listoffigures
+\addcontentsline{toc}{section}{List of figures}
+\newpage
+%\listoftables
+%\addcontentsline{toc}{section}{List of tables}
+\newpage
+\include{./content/glossary}
+
+
+%----------------------------------------------------------------------------------------
+%	MAIN CONTENT SECTION
+%----------------------------------------------------------------------------------------
+
+\pagestyle{long} % Set long page header
+\pagenumbering{arabic} 
+\setcounter{page}{1}
+
+\input{./content}
+
+\glsaddallunused
+\end{document}

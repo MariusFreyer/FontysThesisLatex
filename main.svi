@@ -1,0 +1,6 @@
+\glossarysection[\glossarytoctitle]{\glossarytitle}\glossarypreamble
+\begin{theglossary}\glossaryheader
+\glsgroupheading{A}\relax \glsresetentrylist %
+\glossentry{abbreviation1}{\glossaryentrynumbers{\relax 
+		\setentrycounter[]{page}\glsignore{12}}}%
+\end{theglossary}\glossarypostamble
